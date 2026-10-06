@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DAMFlix</string>
+    <string name="avatar_desc">Avatar del usuario</string>
+    <string name="user_name">Daniel Ramos</string>
+    <string name="user_role">Crítico de Cine</string>
+    <string name="movies_watched">42 Películas Vistas</string>
+    <string name="reviews_written">12 Reseñas</string>
+</resources>
