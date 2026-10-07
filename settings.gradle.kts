@@ -1,3 +1,15 @@
+@Suppress("UNCHECKED_CAST")
+try {
+    val peClass = Class.forName("java.lang.ProcessEnvironment")
+    val envField = peClass.getDeclaredField("theEnvironment")
+    envField.isAccessible = true
+    (envField.get(null) as? MutableMap<String, String>)?.remove("ANDROID_PREFS_ROOT")
+    val ciEnvField = peClass.getDeclaredField("theCaseInsensitiveEnvironment")
+    ciEnvField.isAccessible = true
+    (ciEnvField.get(null) as? MutableMap<String, String>)?.remove("ANDROID_PREFS_ROOT")
+} catch (_: Throwable) {
+}
+
 pluginManagement {
     repositories {
         google {
@@ -24,4 +36,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "DAMFlix"
 include(":app")
+
  

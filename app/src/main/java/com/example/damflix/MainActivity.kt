@@ -139,4 +139,10 @@ fun UserProfilePreview() {
     MaterialTheme {
         UserProfileScreen()
     }
+
+
+
+    fun Nuevo() {
+
+    }
 }
