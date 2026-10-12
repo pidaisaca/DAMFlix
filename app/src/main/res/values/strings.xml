@@ -5,4 +5,14 @@
     <string name="user_role">Crítico de Cine</string>
     <string name="movies_watched">42 Películas Vistas</string>
     <string name="reviews_written">12 Reseñas</string>
+    <string name="title_register_movie">Registrar Nueva Película</string>
+    <string name="label_movie_title">Título de la Película</string>
+    <string name="label_movie_director">Director/a</string>
+    <string name="label_release_year">Año de estreno</string>
+    <string name="label_movie_watched">Ya he visto esta película</string>
+    <string name="label_movie_pending">Película pendiente de ver</string>
+    <string name="btn_save_movie">Guardar Película</string>
+    <string name="status_watched">vista</string>
+    <string name="status_pending">pendiente</string>
+    <string name="msg_movie_saved">Película \"%1$s\" de %2$s%3$s guardada como %4$s.</string>
 </resources>
