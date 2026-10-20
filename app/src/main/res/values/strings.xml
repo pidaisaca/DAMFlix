@@ -17,4 +17,9 @@
     <string name="msg_movie_saved">Película \"%1$s\" de %2$s%3$s guardada como %4$s.</string>
     <string name="title_catalog">DAMFlix - Catálogo</string>
     <string name="desc_favorite">Favorito</string>
+    <string name="nav_home">Inicio</string>
+    <string name="nav_catalog">Catálogo</string>
+    <string name="nav_add_movie">Añadir</string>
+    <string name="nav_profile">Perfil</string>
+    <string name="welcome_message">¡Bienvenido a DAMFlix!</string>
 </resources>
