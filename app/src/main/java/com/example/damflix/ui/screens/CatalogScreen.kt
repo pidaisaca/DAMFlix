@@ -14,31 +14,31 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.damflix.R
 import com.example.damflix.model.Movie
 import com.example.damflix.ui.components.MovieCard
 import com.example.damflix.ui.preview.CatalogPreviewProvider
-import com.example.damflix.ui.preview.sampleMovies
+import com.example.damflix.ui.viewmodel.MovieViewModel
 
 @Composable
-fun CatalogScreen(modifier: Modifier = Modifier) {
-    val movies = remember { mutableStateListOf(*sampleMovies.toTypedArray()) }
+fun CatalogScreen(
+    modifier: Modifier = Modifier,
+    viewModel: MovieViewModel = viewModel(),
+) {
+    val movies by viewModel.movies.collectAsStateWithLifecycle()
 
     CatalogContent(
         movies = movies,
         onToggleFavorite = { movieId ->
-            val index = movies.indexOfFirst { it.id == movieId }
-            if (index != -1) {
-                val currentMovie = movies[index]
-                movies[index] = currentMovie.copy(isFavorite = !currentMovie.isFavorite)
-            }
+            viewModel.toggleFavorite(movieId)
         },
         modifier = modifier,
     )

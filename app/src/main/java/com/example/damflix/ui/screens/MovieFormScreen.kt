@@ -31,11 +31,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.damflix.R
 import com.example.damflix.ui.components.InputField
+import com.example.damflix.ui.viewmodel.MovieViewModel
 
 @Composable
-fun MovieFormScreen(modifier: Modifier = Modifier) {
+fun MovieFormScreen(
+    modifier: Modifier = Modifier,
+    viewModel: MovieViewModel = viewModel(),
+) {
     var title by remember { mutableStateOf("") }
     var director by remember { mutableStateOf("") }
     var year by remember { mutableStateOf("") }
@@ -123,7 +128,18 @@ fun MovieFormScreen(modifier: Modifier = Modifier) {
                     onClick = {
                         val statusStr = if (isWatched) statusWatched else statusPending
                         val yearText = if (year.isNotBlank()) " ($year)" else ""
-                        savedMessage = String.format(msgTemplate, title, director, yearText, statusStr)
+                        val savedTitle = title
+                        val savedDirector = director
+
+                        viewModel.addMovie(
+                            title = title,
+                            director = director,
+                            year = year,
+                            isWatched = isWatched,
+                            onSaved = {
+                                savedMessage = String.format(msgTemplate, savedTitle, savedDirector, yearText, statusStr)
+                            }
+                        )
 
                         title = ""
                         director = ""

@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -21,6 +22,7 @@ import com.example.damflix.ui.screens.CatalogScreen
 import com.example.damflix.ui.screens.HomeScreen
 import com.example.damflix.ui.screens.MovieFormScreen
 import com.example.damflix.ui.screens.UserProfileScreen
+import com.example.damflix.ui.viewmodel.MovieViewModel
 
 val bottomNavigationItems = listOf(
     Screen.Home,
@@ -33,6 +35,7 @@ val bottomNavigationItems = listOf(
 fun AppNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
+    movieViewModel: MovieViewModel = viewModel(),
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -49,10 +52,10 @@ fun AppNavigation(
                 HomeScreen()
             }
             composable(Screen.Catalog.route) {
-                CatalogScreen()
+                CatalogScreen(viewModel = movieViewModel)
             }
             composable(Screen.AddMovie.route) {
-                MovieFormScreen()
+                MovieFormScreen(viewModel = movieViewModel)
             }
             composable(Screen.Profile.route) {
                 UserProfileScreen()
