@@ -28,9 +28,11 @@ import com.example.damflix.model.Movie
 fun MovieCard(
     movie: Movie,
     onToggleFavorite: (Int) -> Unit,
+    onMovieClick: (Int) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     Card(
+        onClick = { onMovieClick(movie.id) },
         modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {

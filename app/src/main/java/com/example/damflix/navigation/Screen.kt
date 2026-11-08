@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.damflix.R
@@ -37,4 +38,12 @@ sealed class Screen(
         titleResId = R.string.nav_profile,
         icon = Icons.Default.Person,
     )
+
+    object Detail : Screen(
+        route = "detail/{movieId}",
+        titleResId = R.string.title_movie_detail,
+        icon = Icons.Default.Info,
+    ) {
+        fun createRoute(movieId: Int): String = "detail/$movieId"
+    }
 }

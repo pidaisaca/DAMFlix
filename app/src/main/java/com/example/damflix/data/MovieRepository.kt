@@ -7,6 +7,10 @@ class MovieRepository(private val movieDao: MovieDao) {
 
     val movies: Flow<List<Movie>> = movieDao.getAllMovies()
 
+    suspend fun getMovieById(id: Int): Movie? {
+        return movieDao.getMovieById(id)
+    }
+
     suspend fun insertMovie(movie: Movie): Long {
         return movieDao.insertMovie(movie)
     }

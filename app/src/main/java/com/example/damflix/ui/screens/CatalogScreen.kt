@@ -23,6 +23,7 @@ import com.example.damflix.ui.viewmodel.MovieViewModel
 @Composable
 fun CatalogScreen(
     modifier: Modifier = Modifier,
+    onMovieClick: (Int) -> Unit = {},
     viewModel: MovieViewModel = viewModel(),
 ) {
     val movies by viewModel.movies.collectAsStateWithLifecycle()
@@ -32,6 +33,7 @@ fun CatalogScreen(
         onToggleFavorite = { movieId ->
             viewModel.toggleFavorite(movieId)
         },
+        onMovieClick = onMovieClick,
         modifier = modifier,
     )
 }
@@ -40,6 +42,7 @@ fun CatalogScreen(
 fun CatalogContent(
     movies: List<Movie>,
     onToggleFavorite: (Int) -> Unit,
+    onMovieClick: (Int) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -57,6 +60,7 @@ fun CatalogContent(
                 MovieCard(
                     movie = movie,
                     onToggleFavorite = onToggleFavorite,
+                    onMovieClick = onMovieClick,
                 )
             }
         }
@@ -72,6 +76,7 @@ fun CatalogPreview(
         CatalogContent(
             movies = movieList,
             onToggleFavorite = {},
+            onMovieClick = {},
         )
     }
 }

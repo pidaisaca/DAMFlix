@@ -24,21 +24,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.damflix.DAMFlixApplication
 import com.example.damflix.R
 import com.example.damflix.ui.screens.CatalogScreen
 import com.example.damflix.ui.screens.HomeScreen
+import com.example.damflix.ui.screens.MovieDetailScreen
 import com.example.damflix.ui.screens.MovieFormScreen
 import com.example.damflix.ui.screens.UserProfileScreen
+import com.example.damflix.ui.viewmodel.MovieDetailViewModel
+import com.example.damflix.ui.viewmodel.MovieDetailViewModelFactory
 import com.example.damflix.ui.viewmodel.MovieViewModel
 import kotlinx.coroutines.launch
 
@@ -74,7 +81,7 @@ fun AppNavigation(
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(horizontal = 28.dp, vertical = 16.dp)
+                    modifier = Modifier.padding(horizontal = 28.dp, vertical = 16.dp),
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 navigationDrawerItems.forEach { screen ->
@@ -100,7 +107,7 @@ fun AppNavigation(
                                 }
                             }
                         },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                     )
                 }
             }
@@ -114,15 +121,15 @@ fun AppNavigation(
                         IconButton(onClick = { scope.launch { drawerState.open() } }) {
                             Icon(
                                 imageVector = Icons.Default.Menu,
-                                contentDescription = stringResource(id = R.string.nav_home)
+                                contentDescription = stringResource(id = R.string.nav_home),
                             )
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer,
                         titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
+                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    ),
                 )
             }
         ) { innerPadding ->
@@ -135,13 +142,40 @@ fun AppNavigation(
                     HomeScreen()
                 }
                 composable(Screen.Catalog.route) {
-                    CatalogScreen(viewModel = movieViewModel)
+                    CatalogScreen(
+                        viewModel = movieViewModel,
+                        onMovieClick = { movieId ->
+                            navController.navigate(Screen.Detail.createRoute(movieId))
+                        },
+                    )
                 }
                 composable(Screen.AddMovie.route) {
                     MovieFormScreen(viewModel = movieViewModel)
                 }
                 composable(Screen.Profile.route) {
                     UserProfileScreen()
+                }
+                composable(
+                    route = Screen.Detail.route,
+                    arguments = listOf(
+                        navArgument("movieId") {
+                            type = NavType.IntType
+                        },
+                    ),
+                ) { backStackEntry ->
+                    val movieId = backStackEntry.arguments?.getInt("movieId") ?: 0
+                    val context = LocalContext.current
+                    val app = context.applicationContext as DAMFlixApplication
+
+                    val detailViewModel: MovieDetailViewModel = viewModel(
+                        factory = MovieDetailViewModelFactory(app.repository),
+                    )
+
+                    MovieDetailScreen(
+                        movieId = movieId,
+                        viewModel = detailViewModel,
+                        onBackClick = { navController.popBackStack() },
+                    )
                 }
             }
         }
